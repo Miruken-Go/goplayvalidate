@@ -6,5 +6,6 @@ import "github.com/miruken-go/miruken"
 import "reflect"
 
 var HandlerTestTypes = []reflect.Type{
+	miruken.TypeOf[*UserHandler](),
 }
 
