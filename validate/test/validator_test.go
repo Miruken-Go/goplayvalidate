@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/miruken-go/go-playground/validator"
+	"github.com/miruken-go/go-playground/validate"
 	"github.com/miruken-go/miruken"
 	"github.com/stretchr/testify/suite"
 	"testing"
@@ -55,7 +55,7 @@ type ValidatorTestSuite struct {
 func (suite *ValidatorTestSuite) SetupTest() {
 	suite.handler = miruken.NewRegistration(
 		miruken.WithHandlerTypes(HandlerTestTypes...),
-		validator.WithGoPlaygroundValidation(),
+		validate.WithGoPlaygroundValidation(),
 	).Build()
 }
 
