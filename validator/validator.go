@@ -15,7 +15,7 @@ type GoPlaygroundValidator struct {
 
 func (v *GoPlaygroundValidator) Constructor(
 	validate *play.Validate,
-	_ *struct{ miruken.Optional }, translator  ut.Translator,
+	_ *struct{ miruken.Optional }, translator ut.Translator,
 ) {
 	v.validate   = validate
 	v.translator = translator
