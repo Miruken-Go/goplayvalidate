@@ -17,7 +17,7 @@ func (v *GoPlaygroundValidationInstaller) Validator() *play.Validate {
 	return v.validate
 }
 
-func (v *GoPlaygroundValidationInstaller) SetTranslator(translator ut.Translator) {
+func (v *GoPlaygroundValidationInstaller) UseTranslator(translator ut.Translator) {
 	v.translator = translator
 }
 
