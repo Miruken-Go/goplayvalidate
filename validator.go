@@ -8,12 +8,12 @@ import (
 	"strings"
 )
 
-type GoPlaygroundValidator struct {
+type validator struct {
 	validate   *play.Validate
 	translator ut.Translator
 }
 
-func (v *GoPlaygroundValidator) Constructor(
+func (v *validator) Constructor(
 	validate *play.Validate,
 	_ *struct{ miruken.Optional }, translator ut.Translator,
 ) {
@@ -21,7 +21,7 @@ func (v *GoPlaygroundValidator) Constructor(
 	v.translator = translator
 }
 
-func (v *GoPlaygroundValidator) Validate(
+func (v *validator) Validate(
 	validates *miruken.Validates, target any,
 ) miruken.HandleResult {
 	if !miruken.IsStruct(target) {
@@ -44,7 +44,7 @@ func (v *GoPlaygroundValidator) Validate(
 	return miruken.Handled
 }
 
-func  (v *GoPlaygroundValidator) buildValidationOutcome(
+func  (v *validator) buildValidationOutcome(
 	outcome     *miruken.ValidationOutcome,
 	fieldErrors play.ValidationErrors,
 ) {
@@ -57,7 +57,7 @@ func  (v *GoPlaygroundValidator) buildValidationOutcome(
 	}
 }
 
-func  (v *GoPlaygroundValidator) translateValidationOutcome(
+func  (v *validator) translateValidationOutcome(
 	outcome     *miruken.ValidationOutcome,
 	fieldErrors play.ValidationErrors,
 ) {

@@ -24,7 +24,7 @@ func (v *GoPlaygroundValidationInstaller) SetTranslator(translator ut.Translator
 func (v *GoPlaygroundValidationInstaller) Install(registration *miruken.Registration) {
 	if registration.CanInstall(&_registrationTag) {
 		registration.Install(miruken.WithValidation())
-		registration.AddHandlerTypes(miruken.TypeOf[*GoPlaygroundValidator]())
+		registration.AddHandlerTypes(miruken.TypeOf[*validator]())
 		registration.AddHandlers(miruken.NewProvider(v.validate))
 		if trans := v.translator; trans != nil {
 			registration.AddHandlers(miruken.NewProvider(trans))
