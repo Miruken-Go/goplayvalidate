@@ -6,8 +6,8 @@ import (
 	"github.com/miruken-go/miruken"
 )
 
-// GoPlaygroundValidationInstaller enables validation support for
-// https://github.com/go-playground/validator/
+// GoPlaygroundValidationInstaller enables validation support
+// for https://github.com/go-playground/validator/
 type GoPlaygroundValidationInstaller struct {
 	validate   *play.Validate
 	translator ut.Translator

@@ -9,6 +9,14 @@ import (
 
 //go:generate $GOPATH/bin/mirukentypes -tests
 
+// Address contains user address information.
+type Address struct {
+	Street string `validate:"required"`
+	City   string `validate:"required"`
+	Planet string `validate:"required"`
+	Phone  string `validate:"required"`
+}
+
 // User contains user information.
 type User struct {
 	Id             int
@@ -18,14 +26,6 @@ type User struct {
 	Email          string    `validate:"required,email"`
 	FavouriteColor string    `validate:"iscolor"`
 	Addresses      []Address `validate:"required,dive,required"`
-}
-
-// Address houses a users address information.
-type Address struct {
-	Street string `validate:"required"`
-	City   string `validate:"required"`
-	Planet string `validate:"required"`
-	Phone  string `validate:"required"`
 }
 
 // Command to create a User.
@@ -79,7 +79,9 @@ func (suite *ValidatorTestSuite) TestValidator() {
 				},
 			},
 		}
-		if err := miruken.Invoke(suite.handler, &create, &user); err != nil {
+		if err := miruken.Invoke(suite.handler, &create, &user); err == nil {
+			suite.Equal(1, user.Id)
+		} else {
 			suite.Fail("unexpected error", err.Error())
 		}
 	})
@@ -100,7 +102,7 @@ func (suite *ValidatorTestSuite) TestValidator() {
 			suite.IsType(&miruken.ValidationOutcome{}, err)
 			outcome := err.(*miruken.ValidationOutcome)
 			suite.False(outcome.Valid())
-			user := outcome.Child("User")
+			user := outcome.Path("User")
 			suite.Equal("Addresses: (0: (City: Key: 'CreateUser.User.Addresses[0].City' Error:Field validation for 'City' failed on the 'required' tag; Phone: Key: 'CreateUser.User.Addresses[0].Phone' Error:Field validation for 'Phone' failed on the 'required' tag; Planet: Key: 'CreateUser.User.Addresses[0].Planet' Error:Field validation for 'Planet' failed on the 'required' tag; Street: Key: 'CreateUser.User.Addresses[0].Street' Error:Field validation for 'Street' failed on the 'required' tag)); Age: Key: 'CreateUser.User.Age' Error:Field validation for 'Age' failed on the 'lte' tag; Email: Key: 'CreateUser.User.Email' Error:Field validation for 'Email' failed on the 'required' tag; FavouriteColor: Key: 'CreateUser.User.FavouriteColor' Error:Field validation for 'FavouriteColor' failed on the 'iscolor' tag; FirstName: Key: 'CreateUser.User.FirstName' Error:Field validation for 'FirstName' failed on the 'required' tag; LastName: Key: 'CreateUser.User.LastName' Error:Field validation for 'LastName' failed on the 'required' tag", user.Error())
 		} else {
 			suite.Fail("expected error")

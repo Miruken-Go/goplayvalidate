@@ -2,6 +2,7 @@ package goplayvalidate
 
 import (
 	"errors"
+	"fmt"
 	ut "github.com/go-playground/universal-translator"
 	play "github.com/go-playground/validator/v10"
 	"github.com/miruken-go/miruken"
@@ -39,6 +40,8 @@ func (v *validator) Validate(
 				v.translateValidationOutcome(outcome, e)
 			}
 			return miruken.HandledAndStop
+		default:
+			panic(fmt.Errorf("unexpected validation error %v", err))
 		}
 	}
 	return miruken.Handled
