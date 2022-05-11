@@ -21,20 +21,20 @@ func (v *GoPlaygroundValidationInstaller) UseTranslator(translator ut.Translator
 	v.translator = translator
 }
 
-func (v *GoPlaygroundValidationInstaller) Install(registration *miruken.Registration) {
-	if registration.CanInstall(&_registrationTag) {
-		registration.Install(miruken.WithValidation())
-		registration.AddHandlerTypes(miruken.TypeOf[*validator]())
-		registration.AddHandlers(miruken.NewProvider(v.validate))
+func (v *GoPlaygroundValidationInstaller) Install(setup *miruken.SetupBuilder) {
+	if setup.CanInstall(&_featureTag) {
+		setup.Install(miruken.WithValidation())
+		setup.RegisterHandlers(&validator{})
+		setup.AddHandlers(miruken.NewProvider(v.validate))
 		if trans := v.translator; trans != nil {
-			registration.AddHandlers(miruken.NewProvider(trans))
+			setup.AddHandlers(miruken.NewProvider(trans))
 		}
 	}
 }
 
 func WithGoPlaygroundValidation(
 	config ... func(installer *GoPlaygroundValidationInstaller),
-) miruken.Installer {
+) miruken.Feature {
 	installer := &GoPlaygroundValidationInstaller{validate: play.New()}
 	for _, configure := range config {
 		if configure != nil {
@@ -44,4 +44,4 @@ func WithGoPlaygroundValidation(
 	return installer
 }
 
-var _registrationTag byte
+var _featureTag byte
