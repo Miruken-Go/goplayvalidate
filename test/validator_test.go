@@ -61,7 +61,6 @@ func (suite *ValidatorTestSuite) SetupTest() {
 
 func (suite *ValidatorTestSuite) TestValidator() {
 	suite.Run("Valid Target", func() {
-		var user User
 		create := CreateUser{
 			User{
 				FirstName:      "Badger",
@@ -79,7 +78,7 @@ func (suite *ValidatorTestSuite) TestValidator() {
 				},
 			},
 		}
-		if err := miruken.Invoke(suite.handler, &create, &user); err == nil {
+		if user, err := miruken.Invoke[User](suite.handler, &create); err == nil {
 			suite.Equal(1, user.Id)
 		} else {
 			suite.Fail("unexpected error", err.Error())
@@ -87,7 +86,6 @@ func (suite *ValidatorTestSuite) TestValidator() {
 	})
 
 	suite.Run("Invalid Target", func() {
-		var user User
 		create := CreateUser{
 			User{
 				Age: 200,
@@ -98,7 +96,7 @@ func (suite *ValidatorTestSuite) TestValidator() {
 				},
 			},
 		}
-		if err := miruken.Invoke(suite.handler, &create, &user); err != nil {
+		if _, err := miruken.Invoke[User](suite.handler, &create); err != nil {
 			suite.IsType(&miruken.ValidationOutcome{}, err)
 			outcome := err.(*miruken.ValidationOutcome)
 			suite.False(outcome.Valid())
