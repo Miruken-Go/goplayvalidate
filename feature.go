@@ -21,7 +21,7 @@ func (v *GoPlaygroundValidationInstaller) UseTranslator(translator ut.Translator
 	v.translator = translator
 }
 
-func (v *GoPlaygroundValidationInstaller) Install(setup *miruken.SetupBuilder) {
+func (v *GoPlaygroundValidationInstaller) Install(setup *miruken.SetupBuilder) error {
 	if setup.CanInstall(&_featureTag) {
 		setup.Install(miruken.WithValidation())
 		setup.RegisterHandlers(&validator{})
@@ -30,6 +30,7 @@ func (v *GoPlaygroundValidationInstaller) Install(setup *miruken.SetupBuilder) {
 			setup.AddHandlers(miruken.NewProvider(trans))
 		}
 	}
+	return nil
 }
 
 func WithGoPlaygroundValidation(

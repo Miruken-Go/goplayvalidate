@@ -53,7 +53,7 @@ type ValidatorTestSuite struct {
 }
 
 func (suite *ValidatorTestSuite) SetupTest() {
-	suite.handler = miruken.Setup(
+	suite.handler, _ = miruken.Setup(
 		TestFeature,
 		WithGoPlaygroundValidation(),
 	)
