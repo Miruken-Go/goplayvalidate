@@ -22,7 +22,7 @@ func (v *GoPlaygroundValidationInstaller) UseTranslator(translator ut.Translator
 	v.translator = translator
 }
 
-func (v *GoPlaygroundValidationInstaller) Dependencies() []miruken.Feature {
+func (v *GoPlaygroundValidationInstaller) DependsOn() []miruken.Feature {
 	return []miruken.Feature{miruken.WithValidation()}
 }
 
